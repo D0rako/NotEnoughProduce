@@ -1,0 +1,5 @@
+neicrop.header=Crops & Produce
+
+neicrop.notes.mushroomReqs=Can also be placed on opaque blocks with a light level of 12 or under.
+neicrop.notes.duplicating=Will populate the area over time.
+neicrop.notes.grassFlowers=Produces flowers indigenous to the grass block's current biome.

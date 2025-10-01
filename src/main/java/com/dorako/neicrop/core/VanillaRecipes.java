@@ -1,0 +1,208 @@
+package com.dorako.neicrop.core;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockGrass;
+import net.minecraft.block.BlockMushroom;
+import net.minecraft.block.BlockSapling;
+import net.minecraft.block.BlockStem;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemDye;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.IPlantable;
+
+import cpw.mods.fml.client.FMLClientHandler;
+
+// programatically or with a lot of testing)
+public class VanillaRecipes {
+
+    private static final String modId = "minecraft";
+
+    public static List<PlantRecipe> generateRecipes() {
+        String[] SEED_NAMES = { "wheat_seeds", "carrot", "potato", "melon_seeds", "pumpkin_seeds", "dye",
+            /* cocoa */ "reeds", "cactus", "brown_mushroom"/* passive */, "brown_mushroom"/* bonemeal */,
+            "red_mushroom", "red_mushroom", "nether_wart", "sapling"/* oak */, "sapling"/* spruce */,
+            "sapling"/* birch */, "sapling"/* jungle */, "sapling"/* acadia */, "sapling"/* dark oak */,
+            "grass"/* bonemeal flowers */
+        };
+        int[] SEED_DAMAGES = { 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 0, 0 };
+        PlantRecipe.EnumPlantProcesses DEFAULT_FIELD_PROCESS = PlantRecipe.EnumPlantProcesses.BASIC;
+
+        ItemStack[] META_TO_LOG = { new ItemStack((Item) Item.itemRegistry.getObject("log"), 1, 0),
+            new ItemStack((Item) Item.itemRegistry.getObject("log"), 1, 1),
+            new ItemStack((Item) Item.itemRegistry.getObject("log"), 1, 2),
+            new ItemStack((Item) Item.itemRegistry.getObject("log"), 1, 3),
+            new ItemStack((Item) Item.itemRegistry.getObject("log2"), 1, 0),
+            new ItemStack((Item) Item.itemRegistry.getObject("log2"), 1, 1) };
+        ItemStack[] META_TO_LEAF = { new ItemStack((Item) Item.itemRegistry.getObject("leaves"), 1, 0),
+            new ItemStack((Item) Item.itemRegistry.getObject("leaves"), 1, 1),
+            new ItemStack((Item) Item.itemRegistry.getObject("leaves"), 1, 2),
+            new ItemStack((Item) Item.itemRegistry.getObject("leaves"), 1, 3),
+            new ItemStack((Item) Item.itemRegistry.getObject("leaves2"), 1, 0),
+            new ItemStack((Item) Item.itemRegistry.getObject("leaves2"), 1, 1) };
+
+        Map<String, ItemStack> SEED_TO_GOURD = new HashMap<>();
+        SEED_TO_GOURD.put("seeds_pumpkin", new ItemStack((Item) Item.itemRegistry.getObject("pumpkin")));
+        SEED_TO_GOURD.put("seeds_melon", new ItemStack((Item) Item.itemRegistry.getObject("melon_block")));
+
+        Map<Integer, FieldItems.EnumFullPlantType> fieldGroupOverrides = new HashMap<>();
+        fieldGroupOverrides.put(5, FieldItems.EnumFullPlantType.Log);
+
+        Map<Integer, PlantRecipe.EnumPlantProcesses> fieldProcessesOverrides = new HashMap<>();
+        fieldProcessesOverrides.put(9, PlantRecipe.EnumPlantProcesses.BONEMEAL);
+        fieldProcessesOverrides.put(11, PlantRecipe.EnumPlantProcesses.BONEMEAL);
+        fieldProcessesOverrides.put(19, PlantRecipe.EnumPlantProcesses.BONEMEAL);
+
+        Map<Integer, List<ItemStack>> fieldSecondaryProducesOverrides = new HashMap<>();
+        List<ItemStack> redMushroomOutput = new ArrayList<>();
+        redMushroomOutput.add(new ItemStack(((Item) Item.itemRegistry.getObject("red_mushroom")), 1));
+        fieldSecondaryProducesOverrides.put(9, redMushroomOutput);
+        List<ItemStack> brownMushroomOutput = new ArrayList<>();
+        brownMushroomOutput.add(new ItemStack(((Item) Item.itemRegistry.getObject("brown_mushroom")), 1));
+        fieldSecondaryProducesOverrides.put(11, brownMushroomOutput);
+
+        Map<Integer, String> fieldNotes = new HashMap<>();
+        fieldNotes.put(8, StatCollector.translateToLocal("neicrop.notes.duplicating"));
+        fieldNotes.put(10, StatCollector.translateToLocal("neicrop.notes.duplicating"));
+        fieldNotes.put(19, StatCollector.translateToLocal("neicrop.notes.grassFlowers"));
+
+        List<ItemStack> seedList = new ArrayList<>();
+        for (int i = 0; i < SEED_NAMES.length; i++) {
+            Item item = (Item) Item.itemRegistry.getObject(modId + ":" + SEED_NAMES[i]);
+            ItemStack stack = new ItemStack(item);
+            stack.setItemDamage(SEED_DAMAGES[i]);
+
+            seedList.add(stack);
+        }
+
+        List<PlantRecipe> output = new ArrayList<>();
+        for (int i = 0; i < seedList.size(); i++) {
+            ItemStack seed = seedList.get(i);
+            Item seedItem = seed.getItem();
+            Block blockItem;
+            if (seedItem instanceof ItemBlock) {
+                blockItem = ((ItemBlock) seedItem).field_150939_a;
+            } else {
+                blockItem = (Block) Block.blockRegistry.getObject(SEED_NAMES[i]);
+            }
+
+            FieldItems.EnumFullPlantType fieldType = null;
+            if (seedItem instanceof IPlantable) {
+                EnumPlantType baseType = ((IPlantable) (seedItem)).getPlantType(null, 0, 0, 0);
+                fieldType = FieldItems.convertType(baseType);
+            } else if (blockItem instanceof IPlantable) {
+                EnumPlantType baseType = ((IPlantable) (blockItem)).getPlantType(null, 0, 0, 0);
+                fieldType = FieldItems.convertType(baseType);
+            }
+            if (fieldGroupOverrides.containsKey(i)) {
+                fieldType = fieldGroupOverrides.get(i);
+            }
+
+            PlantRecipe.EnumPlantProcesses process = DEFAULT_FIELD_PROCESS;
+            if (fieldProcessesOverrides.containsKey(i)) {
+                process = fieldProcessesOverrides.get(i);
+            }
+
+            // produce
+            List<ItemStack> produce = new ArrayList<>();
+            if (seedItem instanceof IPlantable || blockItem instanceof IPlantable) {
+                BlockBush crop = null;
+                if (seedItem instanceof IPlantable) {
+                    crop = (BlockBush) ((IPlantable) seedItem).getPlant(null, 0, 0, 0);
+                }
+
+                if (blockItem instanceof BlockMushroom) {
+                    if (process == PlantRecipe.EnumPlantProcesses.BONEMEAL) {
+                        // stems don't exist in 1.7
+                        if (blockItem == Blocks.red_mushroom) {
+                            produce.add(new ItemStack(Blocks.red_mushroom_block, 1));
+                        } else if (blockItem == Blocks.brown_mushroom) {
+                            produce.add(new ItemStack(Blocks.brown_mushroom_block, 1));
+                        }
+                    } else {
+                        // duplicates self
+                        produce.add(new ItemStack(seedItem, 1));
+                    }
+                } else if (crop instanceof BlockStem) {
+                    String indexedName = seedItem.getUnlocalizedName();
+                    produce.add(SEED_TO_GOURD.get(indexedName.substring(indexedName.indexOf('.') + 1)));
+                } else if (seedItem instanceof IPlantable) {
+                    Item itemCrop = crop.getItemDropped(7, null, 0);
+                    // TODO: add chances (1 guaranteed + 2+fortune 50% drops) (test this first, may be left-click)
+
+                    // nether wart
+                    if (itemCrop == null) {
+                        // TODO: 2 to 4 + (0 to fortune + 1 if fortune exists)
+                        produce.add(
+                            crop.getDrops(
+                                FMLClientHandler.instance()
+                                    .getWorldClient(),
+                                0,
+                                0,
+                                0,
+                                0,
+                                0)
+                                .get(0));
+                    } else {
+                        produce.add(new ItemStack(itemCrop, 1));
+                    }
+                } else {// if(blockItem instanceof IPlantable){
+                    if (blockItem instanceof BlockSapling) {
+                        // log + leaves
+                        produce.add(META_TO_LOG[SEED_DAMAGES[i]]);
+                        produce.add(META_TO_LEAF[SEED_DAMAGES[i]]);
+                    } else {
+                        // self-duplicating items - reeds & cacti
+                        produce.add(new ItemStack(blockItem.getItem(null, 0, 0, 0)));
+                    }
+                }
+            } else if (seedItem instanceof ItemDye) {
+                // 3x cocoa beans
+                produce.add(new ItemStack(seedItem, 3, 3));
+            } else if (blockItem instanceof BlockGrass) {
+                // flowers
+                produce.addAll(FieldItems.getFlowerItems());
+            }
+
+            // secondary produce
+            List<ItemStack> secondaryProduce = new ArrayList<>();
+            if (seedItem instanceof ItemBlock) {
+                Object crop = ((ItemBlock) seedItem).field_150939_a;
+                if (crop instanceof BlockSapling) {
+                    // sapling
+                    // TODO: drop chance - 1 / 20 w/ no fortune, 1 / max((20 - 2 * 2^fortune), 10) otherwise
+                    // 20 is replaced with 40 for jungle saplings
+                    secondaryProduce.add(seed);
+
+                    // if oak, add apples
+                    // TODO: apple drop chance - 1 / 200 w/ no fortune, 1 / max((200 - 10 * 2^fortune), 40) otherwise
+                    if (SEED_DAMAGES[i] == 0 || SEED_DAMAGES[i] == 5) {
+                        secondaryProduce.add(new ItemStack(((Item) Item.itemRegistry.getObject("apple"))));
+                    }
+                }
+            }
+            if (fieldSecondaryProducesOverrides.containsKey(i)) {
+                secondaryProduce = fieldSecondaryProducesOverrides.get(i);
+            }
+
+            String notes = null;
+            if (fieldNotes.containsKey(i)) {
+                notes = fieldNotes.get(i);
+            }
+
+            PlantRecipe recipe = new PlantRecipe(seed, fieldType, process, produce, secondaryProduce, notes);
+            output.add(recipe);
+        }
+
+        return output;
+    }
+}

@@ -10,8 +10,13 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
-@Mod(modid = MyMod.MODID, version = Tags.VERSION, name = "MyMod", acceptedMinecraftVersions = "[1.7.10]")
-public class MyMod {
+@Mod(
+    modid = NEICrop.MODID,
+    version = Tags.VERSION,
+    name = "NEICrop",
+    acceptedMinecraftVersions = "[1.7.10]",
+    dependencies = "required-after: NotEnoughItems;")
+public class NEICrop {
 
     public static final String MODID = "NEICrop";
     public static final Logger LOG = LogManager.getLogger(MODID);

@@ -1,12 +1,12 @@
 {
 	"modListVersion": 2,
 	"modList": [{
-		"modid": "NEICrop,
-		"name": "Not Enough Produce",
-		"description": "An example mod for Minecraft 1.7.10 with Forge focused on a stable setup.",
-		"version": "1",
-		"mcversion": "1.7.10",
-		"url": "https://github.com/SinTh0r4s/MyMod",
+		"modid": "${modId}",
+		"name": "${modName}",
+		"description": "NEI plugin to show farming-related processes for vanilla and multiple other mods in GT:NH.",
+		"version": "${modVersion}",
+		"mcversion": "${minecraftVersion}",
+		"url": "https://github.com/Dorako/NotEnoughProduce",
 		"updateUrl": "",
 		"authorList": ["Dorako"],
 		"credits": "",
