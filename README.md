@@ -9,7 +9,9 @@ An integration mod designed to show a variety of plant-based growth cycles in NE
   - Self-replicating crops (sugar cane, cactus, vines, etc)
   - Saplings (oak, spruce, etc)
   - Mushroom tree growth
+  - Flower growth from Bonemeal
 - Pam's Harvestcraft
+  - Garden duplication
   - Garden-sourced crops (blueberry, rice, etc)
   - Tree-based crops (avocado, cinnamon, etc)
 - Pam's Harvest The Nether
@@ -47,18 +49,4 @@ An integration mod designed to show a variety of plant-based growth cycles in NE
 - IC2 crops (as there is an active IC2 crops rework currently happening)
 
 personal notes:
-mushrooms grow on dirt + podzol
-glowshrooms only grow on netherrack
-
-apple - apple on tree
-yellow autumn, dying, origin - persimmon drop
-persimmon - persimmon on tree
-hellbark - persimmon drop, overgrown netherrack only
-fir - pinecone drop
-ethereal - unimplemented
-flowering oak - apple drop
-mangrove - sand only
-
 ask about biomes pears and peaches
-
-maybe hide forestry/extra tree's tree info if this looks good enough for consistancy? probably not

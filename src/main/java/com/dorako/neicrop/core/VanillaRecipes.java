@@ -7,10 +7,12 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.BlockStem;
+import net.minecraft.block.BlockVine;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -22,7 +24,6 @@ import net.minecraftforge.common.IPlantable;
 
 import cpw.mods.fml.client.FMLClientHandler;
 
-// programatically or with a lot of testing)
 public class VanillaRecipes {
 
     private static final String modId = "minecraft";
@@ -30,11 +31,12 @@ public class VanillaRecipes {
     public static List<PlantRecipe> generateRecipes() {
         String[] SEED_NAMES = { "wheat_seeds", "carrot", "potato", "melon_seeds", "pumpkin_seeds", "dye",
             /* cocoa */ "reeds", "cactus", "brown_mushroom"/* passive */, "brown_mushroom"/* bonemeal */,
-            "red_mushroom", "red_mushroom", "nether_wart", "sapling"/* oak */, "sapling"/* spruce */,
-            "sapling"/* birch */, "sapling"/* jungle */, "sapling"/* acadia */, "sapling"/* dark oak */,
-            "grass"/* bonemeal flowers */
+            "red_mushroom", "red_mushroom", "nether_wart", "vine", "sapling"/* oak */, "sapling"/* spruce */,
+            "sapling"/* birch */, "sapling"/* jungle */, "sapling"/* mega jungle */, "sapling"/* acadia */,
+            "sapling"/* dark oak */, "grass"/* bonemeal flowers */, "double_plant"/* sunflower */,
+            "double_plant"/* syringa (lilac) */, "double_plant"/* rose */, "double_plant"/* paeonia (peony) */
         };
-        int[] SEED_DAMAGES = { 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 0, 0 };
+        int[] SEED_DAMAGES = { 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 3, 4, 5, 0, 0, 1, 4, 5 };
         PlantRecipe.EnumPlantProcesses DEFAULT_FIELD_PROCESS = PlantRecipe.EnumPlantProcesses.BASIC;
 
         ItemStack[] META_TO_LOG = { new ItemStack((Item) Item.itemRegistry.getObject("log"), 1, 0),
@@ -54,13 +56,20 @@ public class VanillaRecipes {
         SEED_TO_GOURD.put("seeds_pumpkin", new ItemStack((Item) Item.itemRegistry.getObject("pumpkin")));
         SEED_TO_GOURD.put("seeds_melon", new ItemStack((Item) Item.itemRegistry.getObject("melon_block")));
 
+        Map<Integer, Integer> seedAmountOverrides = new HashMap<>();
+        seedAmountOverrides.put(18, 4);
+
         Map<Integer, FieldItems.EnumFullPlantType> fieldGroupOverrides = new HashMap<>();
         fieldGroupOverrides.put(5, FieldItems.EnumFullPlantType.Log);
 
         Map<Integer, PlantRecipe.EnumPlantProcesses> fieldProcessesOverrides = new HashMap<>();
         fieldProcessesOverrides.put(9, PlantRecipe.EnumPlantProcesses.BONEMEAL);
         fieldProcessesOverrides.put(11, PlantRecipe.EnumPlantProcesses.BONEMEAL);
-        fieldProcessesOverrides.put(19, PlantRecipe.EnumPlantProcesses.BONEMEAL);
+        fieldProcessesOverrides.put(21, PlantRecipe.EnumPlantProcesses.BONEMEAL);
+        fieldProcessesOverrides.put(22, PlantRecipe.EnumPlantProcesses.BONEMEAL);
+        fieldProcessesOverrides.put(23, PlantRecipe.EnumPlantProcesses.BONEMEAL);
+        fieldProcessesOverrides.put(24, PlantRecipe.EnumPlantProcesses.BONEMEAL);
+        fieldProcessesOverrides.put(25, PlantRecipe.EnumPlantProcesses.BONEMEAL);
 
         Map<Integer, List<ItemStack>> fieldSecondaryProducesOverrides = new HashMap<>();
         List<ItemStack> redMushroomOutput = new ArrayList<>();
@@ -73,14 +82,27 @@ public class VanillaRecipes {
         Map<Integer, String> fieldNotes = new HashMap<>();
         fieldNotes.put(8, StatCollector.translateToLocal("neicrop.notes.duplicating"));
         fieldNotes.put(10, StatCollector.translateToLocal("neicrop.notes.duplicating"));
-        fieldNotes.put(19, StatCollector.translateToLocal("neicrop.notes.grassFlowers"));
+        fieldNotes.put(
+            13,
+            StatCollector.translateToLocal("neicrop.notes.vineLike") + "\n"
+                + StatCollector.translateToLocal("neicrop.notes.shears")
+                + "\n"
+                + StatCollector.translateToLocal("neicrop.notes.growDownwards"));
+        fieldNotes.put(18, StatCollector.translateToLocal("neicrop.notes.megaTree"));
+        fieldNotes.put(22, StatCollector.translateToLocal("neicrop.notes.drop"));
+        fieldNotes.put(23, StatCollector.translateToLocal("neicrop.notes.drop"));
+        fieldNotes.put(24, StatCollector.translateToLocal("neicrop.notes.drop"));
+        fieldNotes.put(25, StatCollector.translateToLocal("neicrop.notes.drop"));
 
         List<ItemStack> seedList = new ArrayList<>();
         for (int i = 0; i < SEED_NAMES.length; i++) {
             Item item = (Item) Item.itemRegistry.getObject(modId + ":" + SEED_NAMES[i]);
-            ItemStack stack = new ItemStack(item);
-            stack.setItemDamage(SEED_DAMAGES[i]);
 
+            Integer stackAmount = 1;
+            if (seedAmountOverrides.containsKey(i)) stackAmount = seedAmountOverrides.get(i);
+            ItemStack stack = new ItemStack(item, stackAmount);
+
+            stack.setItemDamage(SEED_DAMAGES[i]);
             seedList.add(stack);
         }
 
@@ -157,9 +179,18 @@ public class VanillaRecipes {
                     }
                 } else {// if(blockItem instanceof IPlantable){
                     if (blockItem instanceof BlockSapling) {
+                        // TODO: if you're gonna give amounts for other things, figure these out too
                         // log + leaves
                         produce.add(META_TO_LOG[SEED_DAMAGES[i]]);
                         produce.add(META_TO_LEAF[SEED_DAMAGES[i]]);
+
+                        // mega jungle also has vines on it
+                        if (SEED_DAMAGES[i] == 3 && seed.stackSize == 4) {
+                            produce.add(new ItemStack(Blocks.vine));
+                        }
+                    } else if (blockItem instanceof BlockDoublePlant) {
+                        // double-tile flowers
+                        produce.add(new ItemStack(seedItem, 1, SEED_DAMAGES[i]));
                     } else {
                         // self-duplicating items - reeds & cacti
                         produce.add(new ItemStack(blockItem.getItem(null, 0, 0, 0)));
@@ -169,8 +200,12 @@ public class VanillaRecipes {
                 // 3x cocoa beans
                 produce.add(new ItemStack(seedItem, 3, 3));
             } else if (blockItem instanceof BlockGrass) {
-                // flowers
+                // bonemealing grass - spawnable flowers + grass (the shrub)
                 produce.addAll(FieldItems.getFlowerItems());
+                produce.add(new ItemStack(Blocks.tallgrass, 1, 1));
+            } else if (blockItem instanceof BlockVine) {
+                // vines
+                produce.add(new ItemStack(seedItem, 1));
             }
 
             // secondary produce
@@ -181,7 +216,13 @@ public class VanillaRecipes {
                     // sapling
                     // TODO: drop chance - 1 / 20 w/ no fortune, 1 / max((20 - 2 * 2^fortune), 10) otherwise
                     // 20 is replaced with 40 for jungle saplings
-                    secondaryProduce.add(seed);
+
+                    // mega jungle tree isn't GUARANTEED to give 4 from every branch (probably)
+                    if (seed.stackSize > 1) {
+                        ItemStack reproduction = seed.copy();
+                        reproduction.stackSize = 1;
+                        secondaryProduce.add(reproduction);
+                    } else secondaryProduce.add(seed);
 
                     // if oak, add apples
                     // TODO: apple drop chance - 1 / 200 w/ no fortune, 1 / max((200 - 10 * 2^fortune), 40) otherwise

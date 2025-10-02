@@ -3,6 +3,7 @@ package com.dorako.neicrop.core;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
@@ -80,7 +81,7 @@ public class Handler extends TemplateRecipeHandler {
             generateOthers();
         }
 
-        private void generateIngredients(){
+        private void generateIngredients() {
             cachedIngredients = new ArrayList<>();
             if (recipeBase.fieldType == null) {
                 PositionedStack seed = new PositionedStack(recipeBase.seed, FIELD_COORD[0], FIELD_COORD[1]);
@@ -91,10 +92,10 @@ public class Handler extends TemplateRecipeHandler {
             }
         }
 
-        private void generateOthers(){
+        private void generateOthers() {
             cachedOthers = new ArrayList<>();
 
-            if(recipeBase.fieldType != null){
+            if (recipeBase.fieldType != null) {
                 List<ItemStack> validFields = FieldItems.getFieldItems(recipeBase.fieldType);
                 PositionedStack field = new PositionedMultiStack(validFields, FIELD_COORD[0], FIELD_COORD[1]);
                 cachedOthers.add(field);
@@ -105,7 +106,10 @@ public class Handler extends TemplateRecipeHandler {
             // setPermutationToRender on all items (or at least a handler-level toggle), then remove everything that
             // isn't just returning a list of PositionedMultiStacks
             if (recipeBase.produce.size() > 4) {
-                PositionedStack produce = new PositionedMultiStack(recipeBase.produce, PRODUCE_COORD[0], PRODUCE_COORD[1]);
+                PositionedStack produce = new PositionedMultiStack(
+                    recipeBase.produce,
+                    PRODUCE_COORD[0],
+                    PRODUCE_COORD[1]);
                 cachedOthers.add(produce);
             } else {
                 for (int i = 0; i < recipeBase.produce.size(); i++) {
@@ -149,7 +153,7 @@ public class Handler extends TemplateRecipeHandler {
             return getCycledIngredients(cycleticks / 20, cachedIngredients);
         }
 
-        //private List<List<ItemStack>> produceRotateCache;
+        // private List<List<ItemStack>> produceRotateCache;
 
         @Override
         public List<PositionedStack> getOtherStacks() {
@@ -234,8 +238,12 @@ public class Handler extends TemplateRecipeHandler {
     // this makes shift key permutations work
     @Override
     public List<PositionedStack> getIngredientStacks(int recipe) {
-        List<PositionedStack> output = new ArrayList<>(arecipes.get(recipe).getIngredients());
-        output.addAll(arecipes.get(recipe).getOtherStacks());
+        List<PositionedStack> output = new ArrayList<>(
+            arecipes.get(recipe)
+                .getIngredients());
+        output.addAll(
+            arecipes.get(recipe)
+                .getOtherStacks());
         return output;
     }
 
@@ -310,7 +318,7 @@ public class Handler extends TemplateRecipeHandler {
         CropCachedRecipe recipe = (CropCachedRecipe) arecipes.get(recipeInt);
         PlantRecipe baseRecipe = recipe.getRecipeBase();
 
-        if(baseRecipe.notes != null){
+        if (baseRecipe.notes != null) {
             GuiContainerAccessor castGui = (GuiContainerAccessor) gui;
 
             currenttip = super.handleTooltip(gui, currenttip, recipeInt);
@@ -328,7 +336,7 @@ public class Handler extends TemplateRecipeHandler {
 
     private List<String> stringToList(String string) {
         List<String> output = new ArrayList<>();
-        output.add(string);
+        Collections.addAll(output, string.split("\n"));
         return output;
     }
 

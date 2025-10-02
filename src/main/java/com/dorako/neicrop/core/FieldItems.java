@@ -6,16 +6,18 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlower;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.dorako.neicrop.mixins.BiomeGenBaseAccessor;
 
 public class FieldItems {
 
@@ -43,8 +45,6 @@ public class FieldItems {
      */
     private static void generate() {
         Map<EnumFullPlantType, List<ItemStack>> fieldGroupItems = new HashMap<>();
-        List<ItemStack> flowerItems = new ArrayList<>();
-        boolean flower2Processed = false;
 
         for (EnumPlantType plantType : EnumPlantType.values()) {
             List<ItemStack> validFieldList = new ArrayList<>();
@@ -93,26 +93,30 @@ public class FieldItems {
                 Item dirt = block.getItem(null, 0, 0, 0);
                 mushroomBlocks.add(new ItemStack(dirt, 1));
             }
-
-            // flowers
-            if (block instanceof BlockFlower) {
-                String unlocalisedName = block.getUnlocalizedName();
-                unlocalisedName = unlocalisedName.substring(unlocalisedName.indexOf(".") + 1);
-
-                Item item = block.getItemDropped(0, null, 0);
-
-                // manually add subtypes for flower2
-                if (!flower2Processed && unlocalisedName.equals("flower2")) {
-                    int variants = BlockFlower.field_149859_a.length;
-                    for (int i = 0; i < variants; i++) {
-                        flowerItems.add(new ItemStack(item, 1, i));
-                    }
-                    flower2Processed = true;
-                } else {
-                    flowerItems.add(new ItemStack(item, 1));
+        }
+        // flowers
+        // get all biomes in list form
+        Map<String, BiomeGenBase> biomeList = new HashMap<>();
+        for (BiomeDictionary.Type biomeType : BiomeDictionary.Type.values()) {
+            BiomeGenBase[] biomes = BiomeDictionary.getBiomesForType(biomeType);
+            for (BiomeGenBase biome : biomes) {
+                if (!biomeList.containsKey(biome.biomeName)) {
+                    biomeList.put(biome.biomeName, biome);
                 }
             }
         }
+
+        // get all spawnable flowers from every biome
+        Map<String, ItemStack> spawnableFlowers = new HashMap<>();
+        for (BiomeGenBase biome : biomeList.values()) {
+            List<BiomeGenBase.FlowerEntry> validFlowers = ((BiomeGenBaseAccessor) biome).getSpawnableFlowers();
+            for (BiomeGenBase.FlowerEntry flower : validFlowers) {
+                if (!spawnableFlowers.containsKey(flower.block.getUnlocalizedName())) {
+                    spawnableFlowers.put(flower.block.getUnlocalizedName(), new ItemStack(flower.block));
+                }
+            }
+        }
+
         // podzol
         Item dirt = ((Item) (Item.itemRegistry.getObject("dirt")));
         mushroomBlocks.add(new ItemStack(dirt, 1, 2));
@@ -121,7 +125,7 @@ public class FieldItems {
         fieldGroupItems.put(EnumFullPlantType.Mushroom, mushroomBlocks);
 
         FieldItems.fieldGroupItems = fieldGroupItems;
-        FieldItems.flowerItems = flowerItems;
+        FieldItems.flowerItems = new ArrayList<>(spawnableFlowers.values());
     }
 
     /**
