@@ -35,18 +35,23 @@ public class PlantRecipe {
         this.secondaryProduce = secondaryProduce;
         this.notes = notes;
 
+        String caveNote = StatCollector.translateToLocal("neicrop.notes.caveReqs");
         String mushroomNote = StatCollector.translateToLocal("neicrop.notes.mushroomReqs");
         String beachNote = StatCollector.translateToLocal("neicrop.notes.beachReqs");
 
         if (fieldType == FieldItems.EnumFullPlantType.Cave) {
             if (notes != null) {
+                this.notes = caveNote + "\n" + notes;
+            } else {
+                this.notes = caveNote;
+            }
+        } else if (fieldType == FieldItems.EnumFullPlantType.Mushroom) {
+            if (notes != null) {
                 this.notes = mushroomNote + "\n" + notes;
             } else {
                 this.notes = mushroomNote;
             }
-        }
-
-        if (fieldType == FieldItems.EnumFullPlantType.Beach) {
+        } else if (fieldType == FieldItems.EnumFullPlantType.Beach) {
             if (notes != null) {
                 this.notes = beachNote + "\n" + notes;
             } else {

@@ -3,6 +3,10 @@ package com.dorako.neicrop.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dorako.neicrop.core.recipes.HarvestcraftRecipes;
+import com.dorako.neicrop.core.recipes.VanillaRecipes;
+
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -12,10 +16,11 @@ public class CoreLoader {
 
     @SideOnly(Side.CLIENT)
     public static void generateAllRecipes() {
-        List<PlantRecipe> allPlants = new ArrayList<>();
-        allPlants.addAll(VanillaRecipes.generateRecipes());
+        List<PlantRecipe> allPlants = new ArrayList<>(VanillaRecipes.generateRecipes());
 
-        // add mod checks + generators here
+        if (Loader.isModLoaded("harvestcraft")) {
+            allPlants.addAll(HarvestcraftRecipes.generateRecipes());
+        }
 
         if (allRecipes == null) {
             allRecipes = new ArrayList<>();

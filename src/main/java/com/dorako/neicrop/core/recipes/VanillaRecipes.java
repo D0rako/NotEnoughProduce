@@ -1,4 +1,4 @@
-package com.dorako.neicrop.core;
+package com.dorako.neicrop.core.recipes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +21,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
+
+import com.dorako.neicrop.core.FieldItems;
+import com.dorako.neicrop.core.PlantRecipe;
 
 import cpw.mods.fml.client.FMLClientHandler;
 
@@ -61,6 +64,10 @@ public class VanillaRecipes {
 
         Map<Integer, FieldItems.EnumFullPlantType> fieldGroupOverrides = new HashMap<>();
         fieldGroupOverrides.put(5, FieldItems.EnumFullPlantType.Log);
+        fieldGroupOverrides.put(8, FieldItems.EnumFullPlantType.Mushroom);
+        fieldGroupOverrides.put(9, FieldItems.EnumFullPlantType.Mushroom);
+        fieldGroupOverrides.put(10, FieldItems.EnumFullPlantType.Mushroom);
+        fieldGroupOverrides.put(11, FieldItems.EnumFullPlantType.Mushroom);
 
         Map<Integer, PlantRecipe.EnumPlantProcesses> fieldProcessesOverrides = new HashMap<>();
         fieldProcessesOverrides.put(9, PlantRecipe.EnumPlantProcesses.BONEMEAL);

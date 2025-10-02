@@ -109,7 +109,7 @@ public class FieldItems {
         // get all spawnable flowers from every biome
         Map<String, ItemStack> spawnableFlowers = new HashMap<>();
         for (BiomeGenBase biome : biomeList.values()) {
-            List<BiomeGenBase.FlowerEntry> validFlowers = ((BiomeGenBaseAccessor) biome).getSpawnableFlowers();
+            List<BiomeGenBase.FlowerEntry> validFlowers = ((BiomeGenBaseAccessor) biome).getFlowers();
             for (BiomeGenBase.FlowerEntry flower : validFlowers) {
                 if (!spawnableFlowers.containsKey(flower.block.getUnlocalizedName())) {
                     spawnableFlowers.put(flower.block.getUnlocalizedName(), new ItemStack(flower.block));

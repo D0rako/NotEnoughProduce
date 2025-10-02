@@ -6,6 +6,10 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "GuiContainerAccessor"
+    "GuiContainerAccessor",
+    "BiomeGenBaseAccessor",
+    "BlockPamSaplingAccessor",
+    "WorldGenPamFruitTreeAccessor",
+    "WorldGenPamFruitLogTreeAccessor"
   ]
 }
