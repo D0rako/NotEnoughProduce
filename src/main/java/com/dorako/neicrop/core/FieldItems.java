@@ -33,7 +33,9 @@ public class FieldItems {
         Nether,
         Crop,
         Log,
-        Mushroom
+        Mushroom,
+        FullNether,
+        NetherPlains
     }
 
     private static Map<EnumFullPlantType, List<ItemStack>> fieldGroupItems;
@@ -123,6 +125,18 @@ public class FieldItems {
 
         fieldGroupItems.put(EnumFullPlantType.Log, logBlocks);
         fieldGroupItems.put(EnumFullPlantType.Mushroom, mushroomBlocks);
+
+        List<ItemStack> netherBlocks = new ArrayList<>();
+        netherBlocks.add(new ItemStack(Blocks.netherrack));
+        netherBlocks.add(new ItemStack(Blocks.soul_sand));
+
+        List<ItemStack> netherPlainBlocks = new ArrayList<>(netherBlocks);
+        netherPlainBlocks.add(new ItemStack(Blocks.dirt));
+        netherPlainBlocks.add(new ItemStack(Blocks.grass));
+        netherPlainBlocks.add(new ItemStack(Blocks.farmland));
+
+        fieldGroupItems.put(EnumFullPlantType.FullNether, netherBlocks);
+        fieldGroupItems.put(EnumFullPlantType.NetherPlains, netherPlainBlocks);
 
         FieldItems.fieldGroupItems = fieldGroupItems;
         FieldItems.flowerItems = new ArrayList<>(spawnableFlowers.values());

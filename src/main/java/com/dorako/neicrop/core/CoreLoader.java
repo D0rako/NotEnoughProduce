@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dorako.neicrop.core.recipes.HarvestcraftRecipes;
+import com.dorako.neicrop.core.recipes.NetherHarvestRecipes;
 import com.dorako.neicrop.core.recipes.VanillaRecipes;
 
 import cpw.mods.fml.common.Loader;
@@ -20,6 +21,9 @@ public class CoreLoader {
 
         if (Loader.isModLoaded("harvestcraft")) {
             allPlants.addAll(HarvestcraftRecipes.generateRecipes());
+        }
+        if (Loader.isModLoaded("harvestthenether")) {
+            allPlants.addAll(NetherHarvestRecipes.generateRecipes());
         }
 
         if (allRecipes == null) {

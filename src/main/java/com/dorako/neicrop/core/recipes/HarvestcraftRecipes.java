@@ -3,15 +3,13 @@ package com.dorako.neicrop.core.recipes;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.pam.harvestcraft.BlockPamCrop;
-import com.pam.harvestcraft.BlockRegistry;
-import com.pam.harvestcraft.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.IPlantable;
 
 import com.dorako.neicrop.NEICrop;
 import com.dorako.neicrop.core.FieldItems;
@@ -19,15 +17,15 @@ import com.dorako.neicrop.core.PlantRecipe;
 import com.dorako.neicrop.mixins.BlockPamSaplingAccessor;
 import com.dorako.neicrop.mixins.WorldGenPamFruitLogTreeAccessor;
 import com.dorako.neicrop.mixins.WorldGenPamFruitTreeAccessor;
+import com.pam.harvestcraft.BlockPamCrop;
 import com.pam.harvestcraft.BlockPamFruit;
 import com.pam.harvestcraft.BlockPamFruitingLog;
 import com.pam.harvestcraft.BlockPamSapling;
-import com.pam.harvestcraft.ItemPamSeedFood;
+import com.pam.harvestcraft.BlockRegistry;
+import com.pam.harvestcraft.ItemRegistry;
 import com.pam.harvestcraft.WorldGenPamFruitLogTree;
 import com.pam.harvestcraft.WorldGenPamFruitTree;
 import com.pam.harvestcraft.base.BlockGarden;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.common.IPlantable;
 
 public class HarvestcraftRecipes {
 
@@ -128,10 +126,10 @@ public class HarvestcraftRecipes {
                 BlockRegistry.cropsdropSeeds = currentSeedSetting;
 
                 FieldItems.EnumFullPlantType fieldType;
-                if(!ItemRegistry.enablecropitemsasseeds){
+                if (!ItemRegistry.enablecropitemsasseeds) {
                     boolean isWaterPlant = ((IPlantable) rawSeed).getPlantType(null, 0, 0, 0) == EnumPlantType.Water;
 
-                    if(isWaterPlant && BlockRegistry.enablecropspecialplanting){
+                    if (isWaterPlant && BlockRegistry.enablecropspecialplanting) {
                         fieldType = FieldItems.EnumFullPlantType.Water;
                     } else {
                         fieldType = FieldItems.EnumFullPlantType.Crop;
