@@ -30,6 +30,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 public class VanillaRecipes {
 
     private static final String modId = "minecraft";
+    private static final PlantRecipe.ModOrigin modOrigin = PlantRecipe.ModOrigin.VANILLA;
 
     public static List<PlantRecipe> generateRecipes() {
         String[] SEED_NAMES = { "wheat_seeds", "carrot", "potato", "melon_seeds", "pumpkin_seeds", "dye",
@@ -39,7 +40,7 @@ public class VanillaRecipes {
             "sapling"/* dark oak */, "grass"/* bonemeal flowers */, "double_plant"/* sunflower */,
             "double_plant"/* syringa (lilac) */, "double_plant"/* rose */, "double_plant",/* paeonia (peony) */
         };
-        int[] SEED_DAMAGES = { 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 3, 4, 5, 0, 0, 1, 4, 5};
+        int[] SEED_DAMAGES = { 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 3, 4, 5, 0, 0, 1, 4, 5 };
         PlantRecipe.EnumPlantProcesses DEFAULT_FIELD_PROCESS = PlantRecipe.EnumPlantProcesses.BASIC;
 
         ItemStack[] META_TO_LOG = { new ItemStack((Item) Item.itemRegistry.getObject("log"), 1, 0),
@@ -98,6 +99,7 @@ public class VanillaRecipes {
                 + "\n"
                 + StatCollector.translateToLocal("neicrop.notes.growDownwards"));
         fieldNotes.put(18, StatCollector.translateToLocal("neicrop.notes.megaTree"));
+        fieldNotes.put(21, StatCollector.translateToLocal("neicrop.notes.grassFlowers"));
         fieldNotes.put(22, StatCollector.translateToLocal("neicrop.notes.drop"));
         fieldNotes.put(23, StatCollector.translateToLocal("neicrop.notes.drop"));
         fieldNotes.put(24, StatCollector.translateToLocal("neicrop.notes.drop"));
@@ -115,6 +117,7 @@ public class VanillaRecipes {
             seedList.add(stack);
         }
 
+        PlantRecipe.RecipeType type = null;
         List<PlantRecipe> output = new ArrayList<>();
         for (int i = 0; i < seedList.size(); i++) {
             ItemStack seed = seedList.get(i);
@@ -153,6 +156,7 @@ public class VanillaRecipes {
 
                 if (blockItem instanceof BlockMushroom) {
                     if (process == PlantRecipe.EnumPlantProcesses.BONEMEAL) {
+                        type = PlantRecipe.RecipeType.TREE;
                         // stems don't exist in 1.7
                         if (blockItem == Blocks.red_mushroom) {
                             produce.add(new ItemStack(Blocks.red_mushroom_block, 1));
@@ -161,12 +165,15 @@ public class VanillaRecipes {
                         }
                     } else {
                         // duplicates self
+                        type = PlantRecipe.RecipeType.DUPLICATING;
                         produce.add(new ItemStack(seedItem, 1));
                     }
                 } else if (crop instanceof BlockStem) {
+                    type = PlantRecipe.RecipeType.CROP;
                     String indexedName = seedItem.getUnlocalizedName();
                     produce.add(SEED_TO_GOURD.get(indexedName.substring(indexedName.indexOf('.') + 1)));
                 } else if (seedItem instanceof IPlantable) {
+                    type = PlantRecipe.RecipeType.CROP;
                     Item itemCrop = crop.getItemDropped(7, null, 0);
                     // TODO: add chances (1 guaranteed + 2+fortune 50% drops) (test this first, may be left-click)
 
@@ -188,6 +195,7 @@ public class VanillaRecipes {
                     }
                 } else {// if(blockItem instanceof IPlantable){
                     if (blockItem instanceof BlockSapling) {
+                        type = PlantRecipe.RecipeType.TREE;
                         // TODO: if you're gonna give amounts for other things, figure these out too
                         // log + leaves
                         produce.add(META_TO_LOG[SEED_DAMAGES[i]]);
@@ -199,21 +207,26 @@ public class VanillaRecipes {
                         }
                     } else if (blockItem instanceof BlockDoublePlant) {
                         // double-tile flowers
+                        type = PlantRecipe.RecipeType.OTHER;
                         produce.add(new ItemStack(seedItem, 1, SEED_DAMAGES[i]));
                     } else {
                         // self-duplicating items - reeds & cacti
+                        type = PlantRecipe.RecipeType.GROWS;
                         produce.add(new ItemStack(blockItem.getItem(null, 0, 0, 0)));
                     }
                 }
             } else if (seedItem instanceof ItemDye) {
                 // 3x cocoa beans
+                type = PlantRecipe.RecipeType.VINE;
                 produce.add(new ItemStack(seedItem, 3, 3));
             } else if (blockItem instanceof BlockGrass) {
                 // bonemealing grass - spawnable flowers + grass (the shrub)
+                type = PlantRecipe.RecipeType.OTHER;
                 produce.addAll(FieldItems.getFlowerItems());
                 produce.add(new ItemStack(Blocks.tallgrass, 1, 1));
             } else if (blockItem instanceof BlockVine) {
                 // vines
+                type = PlantRecipe.RecipeType.VINE;
                 produce.add(new ItemStack(seedItem, 1));
             }
 
@@ -249,7 +262,15 @@ public class VanillaRecipes {
                 notes = fieldNotes.get(i);
             }
 
-            PlantRecipe recipe = new PlantRecipe(seed, fieldType, process, produce, secondaryProduce, notes);
+            PlantRecipe recipe = new PlantRecipe(
+                seed,
+                fieldType,
+                process,
+                produce,
+                secondaryProduce,
+                notes,
+                type,
+                modOrigin);
             output.add(recipe);
         }
 

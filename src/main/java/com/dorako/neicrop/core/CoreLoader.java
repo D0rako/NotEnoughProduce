@@ -1,6 +1,7 @@
 package com.dorako.neicrop.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.dorako.neicrop.core.recipes.HarvestcraftRecipes;
@@ -25,6 +26,8 @@ public class CoreLoader {
         if (Loader.isModLoaded("harvestthenether")) {
             allPlants.addAll(NetherHarvestRecipes.generateRecipes());
         }
+
+        Collections.sort(allPlants);
 
         if (allRecipes == null) {
             allRecipes = new ArrayList<>();

@@ -19,6 +19,8 @@ import com.pam.harvestthenether.ItemRegistry;
 public class NetherHarvestRecipes {
 
     private static final String modId = "harvestcraft";
+    private static final PlantRecipe.ModOrigin modOrigin = PlantRecipe.ModOrigin.HARVESTCRAFT;
+
     private static final boolean INCLUDE_GARDENS = true;
 
     public static List<PlantRecipe> generateRecipes() {
@@ -49,7 +51,9 @@ public class NetherHarvestRecipes {
                         PlantRecipe.EnumPlantProcesses.BASIC,
                         produce,
                         secondaryProduce,
-                        StatCollector.translateToLocal("neicrop.notes.duplicating")));
+                        StatCollector.translateToLocal("neicrop.notes.duplicating"),
+                        PlantRecipe.RecipeType.DUPLICATING,
+                        modOrigin));
             }
             // ignis fruit tree
             if (blockRaw instanceof BlockNetherSapling) {
@@ -69,7 +73,9 @@ public class NetherHarvestRecipes {
                         PlantRecipe.EnumPlantProcesses.BASIC,
                         produce,
                         secondaryProduce,
-                        StatCollector.translateToLocal("neicrop.notes.hasFruit")));
+                        StatCollector.translateToLocal("neicrop.notes.hasFruit"),
+                        PlantRecipe.RecipeType.TREE,
+                        modOrigin));
             }
             // crops
             if (blockRaw instanceof BlockPamCrop cropBlock) {
@@ -92,7 +98,9 @@ public class NetherHarvestRecipes {
                         PlantRecipe.EnumPlantProcesses.BASIC,
                         produce,
                         new ArrayList<>(),
-                        null));
+                        null,
+                        PlantRecipe.RecipeType.CROP,
+                        modOrigin));
             }
         }
 

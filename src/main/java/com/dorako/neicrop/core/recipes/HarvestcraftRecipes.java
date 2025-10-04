@@ -30,6 +30,8 @@ import com.pam.harvestcraft.base.BlockGarden;
 public class HarvestcraftRecipes {
 
     private static final String modId = "harvestcraft";
+    private static final PlantRecipe.ModOrigin modOrigin = PlantRecipe.ModOrigin.HARVESTCRAFT;
+
     private static final boolean INCLUDE_GARDENS = true;
 
     public static List<PlantRecipe> generateRecipes() {
@@ -54,7 +56,9 @@ public class HarvestcraftRecipes {
                         PlantRecipe.EnumPlantProcesses.BASIC,
                         produce,
                         secondaryProduce,
-                        StatCollector.translateToLocal("neicrop.notes.duplicating")));
+                        StatCollector.translateToLocal("neicrop.notes.duplicating"),
+                        PlantRecipe.RecipeType.DUPLICATING,
+                        modOrigin));
             }
             // fruit trees
             if (blockRaw instanceof BlockPamSapling) {
@@ -114,7 +118,9 @@ public class HarvestcraftRecipes {
                         PlantRecipe.EnumPlantProcesses.BASIC,
                         produce,
                         secondaryProduce,
-                        note));
+                        note,
+                        PlantRecipe.RecipeType.TREE,
+                        modOrigin));
             }
             // crops
             if (blockRaw instanceof BlockPamCrop cropBlock) {
@@ -148,7 +154,9 @@ public class HarvestcraftRecipes {
                         PlantRecipe.EnumPlantProcesses.BASIC,
                         produce,
                         new ArrayList<>(),
-                        null));
+                        null,
+                        PlantRecipe.RecipeType.CROP,
+                        modOrigin));
             }
         }
 
