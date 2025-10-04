@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
+import com.dorako.neicrop.Config;
 import com.dorako.neicrop.core.FieldItems;
 import com.dorako.neicrop.core.PlantRecipe;
 import com.pam.harvestthenether.BlockNetherGarden;
@@ -21,7 +22,7 @@ public class NetherHarvestRecipes {
     private static final String modId = "harvestcraft";
     private static final PlantRecipe.ModOrigin modOrigin = PlantRecipe.ModOrigin.HARVESTCRAFT;
 
-    private static final boolean INCLUDE_GARDENS = true;
+    private static final boolean INCLUDE_GARDENS = Config.showHarvestcraftGardens;
 
     public static List<PlantRecipe> generateRecipes() {
         List<PlantRecipe> output = new ArrayList<>();

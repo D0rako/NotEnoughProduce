@@ -97,7 +97,7 @@ public class PlantRecipe implements Comparable<PlantRecipe> {
         if (this.seed.getItem() != other.seed.getItem()) {
             return Item.getIdFromItem(this.seed.getItem()) - Item.getIdFromItem(other.seed.getItem());
         }
-        if(this.processType != other.processType){
+        if (this.processType != other.processType) {
             return this.processType.ordinal() - other.processType.ordinal();
         }
         if (this.seed.stackSize != other.seed.stackSize) {

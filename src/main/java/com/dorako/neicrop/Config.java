@@ -1,20 +1,32 @@
 package com.dorako.neicrop;
 
 import java.io.File;
+import java.io.IOException;
 
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.config.Configuration;
 
 public class Config {
 
-    public static String greeting = "Hello World";
+    public static boolean showHarvestcraftGardens = true;
 
     public static void synchronizeConfiguration(File configFile) {
-        Configuration configuration = new Configuration(configFile);
+        try {
+            configFile.createNewFile();
+        } catch (IOException e) {
 
-        greeting = configuration.getString("greeting", Configuration.CATEGORY_GENERAL, greeting, "How shall I greet?");
+        }
+        Configuration config = new Configuration(configFile);
+        config.load();
 
-        if (configuration.hasChanged()) {
-            configuration.save();
+        showHarvestcraftGardens = config.getBoolean(
+            StatCollector.translateToLocal("neicrop.config.showHarvestcraftGardens.key"),
+            Configuration.CATEGORY_GENERAL,
+            showHarvestcraftGardens,
+            StatCollector.translateToLocal("neicrop.config.showHarvestcraftGardens.value"));
+
+        if (config.hasChanged()) {
+            config.save();
         }
     }
 }

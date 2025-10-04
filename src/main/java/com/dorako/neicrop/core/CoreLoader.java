@@ -29,9 +29,7 @@ public class CoreLoader {
 
         Collections.sort(allPlants);
 
-        if (allRecipes == null) {
-            allRecipes = new ArrayList<>();
-        }
+        allRecipes = new ArrayList<>();
         allRecipes.addAll(allPlants);
     }
 

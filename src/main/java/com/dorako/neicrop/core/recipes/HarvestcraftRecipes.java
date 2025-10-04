@@ -11,6 +11,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 
+import com.dorako.neicrop.Config;
 import com.dorako.neicrop.NEICrop;
 import com.dorako.neicrop.core.FieldItems;
 import com.dorako.neicrop.core.PlantRecipe;
@@ -32,7 +33,7 @@ public class HarvestcraftRecipes {
     private static final String modId = "harvestcraft";
     private static final PlantRecipe.ModOrigin modOrigin = PlantRecipe.ModOrigin.HARVESTCRAFT;
 
-    private static final boolean INCLUDE_GARDENS = true;
+    private static final boolean INCLUDE_GARDENS = Config.showHarvestcraftGardens;
 
     public static List<PlantRecipe> generateRecipes() {
         List<PlantRecipe> output = new ArrayList<>();

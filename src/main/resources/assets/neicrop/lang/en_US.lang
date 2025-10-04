@@ -16,4 +16,7 @@ neicrop.notes.drop=Produce is dropped as an item that can be picked up.
 neicrop.notes.hasFruit=Produce can be harvested by right-clicking fruit blocks.
 neicrop.notes.hasLogFruit=Produce can be harvested by right-clicking the tree trunk.
 
+neicrop.config.showHarvestcraftGardens.key=showHarvestcraftGardens
+neicrop.config.showHarvestcraftGardens.value=showHarvestcraftGardens
+
 neicrop.errors.hc=Pam's Harvestcraft has added a third type of fruit tree! Please submit a bug report to NotEnoughProduce to add it
