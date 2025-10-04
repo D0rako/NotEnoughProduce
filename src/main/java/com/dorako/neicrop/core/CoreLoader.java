@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.dorako.neicrop.core.recipes.BiomesOPlentyRecipes;
 import com.dorako.neicrop.core.recipes.HarvestcraftRecipes;
 import com.dorako.neicrop.core.recipes.NetherHarvestRecipes;
 import com.dorako.neicrop.core.recipes.VanillaRecipes;
@@ -25,6 +26,9 @@ public class CoreLoader {
         }
         if (Loader.isModLoaded("harvestthenether")) {
             allPlants.addAll(NetherHarvestRecipes.generateRecipes());
+        }
+        if (Loader.isModLoaded("BiomesOPlenty")) {
+            allPlants.addAll(BiomesOPlentyRecipes.generateRecipes());
         }
 
         Collections.sort(allPlants);

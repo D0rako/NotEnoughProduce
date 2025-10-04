@@ -62,6 +62,7 @@ public class VanillaRecipes {
 
         Map<Integer, Integer> seedAmountOverrides = new HashMap<>();
         seedAmountOverrides.put(18, 4);
+        seedAmountOverrides.put(20, 4);
 
         Map<Integer, FieldItems.EnumFullPlantType> fieldGroupOverrides = new HashMap<>();
         fieldGroupOverrides.put(5, FieldItems.EnumFullPlantType.Log);
@@ -99,6 +100,7 @@ public class VanillaRecipes {
                 + "\n"
                 + StatCollector.translateToLocal("neicrop.notes.growDownwards"));
         fieldNotes.put(18, StatCollector.translateToLocal("neicrop.notes.megaTree"));
+        fieldNotes.put(20, StatCollector.translateToLocal("neicrop.notes.megaTree"));
         fieldNotes.put(21, StatCollector.translateToLocal("neicrop.notes.grassFlowers"));
         fieldNotes.put(22, StatCollector.translateToLocal("neicrop.notes.drop"));
         fieldNotes.put(23, StatCollector.translateToLocal("neicrop.notes.drop"));

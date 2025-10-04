@@ -19,6 +19,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.dorako.neicrop.mixins.BiomeGenBaseAccessor;
 
+import biomesoplenty.api.content.BOPCBlocks;
+import biomesoplenty.common.blocks.BlockBOPNewDirt;
+import biomesoplenty.common.blocks.BlockBOPNewGrass;
+import cpw.mods.fml.common.Loader;
+
 public class FieldItems {
 
     /**
@@ -35,7 +40,11 @@ public class FieldItems {
         Log,
         Mushroom,
         FullNether,
-        NetherPlains
+        NetherPlains,
+        OvergrownNetherrack,
+        Dirt,
+        BOPPine,
+        BOPMoss
     }
 
     private static Map<EnumFullPlantType, List<ItemStack>> fieldGroupItems;
@@ -63,39 +72,37 @@ public class FieldItems {
             for (Object blockRaw : Block.blockRegistry) {
                 Block block = (Block) blockRaw;
                 if (block.canSustainPlant(new FakeWorld(block), 0, 0, 0, null, plant)) {
-                    int blockId = Block.blockRegistry.getIDForObject(block);
-                    // prevent metadata duplicates
-                    if (!idsAdded.contains(blockId)) {
-                        idsAdded.add(blockId);
-                        Item validField = (Item) Item.itemRegistry.getObjectById(blockId);
-                        if (validField == null) {
-                            String blockName = block.getUnlocalizedName();
-                            blockName = blockName.substring(blockName.indexOf((".") + 1));
-                            validField = (Item) Item.itemRegistry.getObject(blockName);
+
+                    if (Loader.isModLoaded("BiomesOPlenty")) {
+                        if (block instanceof BlockBOPNewDirt) {
+                            for (int i = 0; i < 6; i++) validFieldList.add(new ItemStack(block, 1, i));
+                            continue;
+                        } else if (block instanceof BlockBOPNewGrass) {
+                            for (int i = 0; i < 3; i++) validFieldList.add(new ItemStack(block, 1, i));
+                            continue;
                         }
-                        validFieldList.add(new ItemStack(validField, 1));
                     }
+                    validFieldList.add(new ItemStack(block, 1));
                 }
             }
 
             fieldGroupItems.put(FieldItems.convertType(plantType), validFieldList);
         }
 
-        // get all logs & mushrooms
+        // get all mushrooms
         List<ItemStack> mushroomBlocks = new ArrayList<>();
         List<ItemStack> logBlocks = new ArrayList<>();
         for (Object blockRaw : Block.blockRegistry) {
             Block block = (Block) blockRaw;
-            // as per ItemDye.onItemUse
-            if (block == Blocks.log) {
-                Item log = block.getItem(null, 0, 0, 0);
-                logBlocks.add(new ItemStack(log));
-            }
             if (block == Blocks.mycelium) {
                 Item dirt = block.getItem(null, 0, 0, 0);
                 mushroomBlocks.add(new ItemStack(dirt, 1));
             }
         }
+
+        // cocoa bean logs
+        for (int i = 0; i < 4; i++) logBlocks.add(new ItemStack(Blocks.log, 1, i));
+
         // flowers
         // get all biomes in list form
         Map<String, BiomeGenBase> biomeList = new HashMap<>();
@@ -126,6 +133,7 @@ public class FieldItems {
         fieldGroupItems.put(EnumFullPlantType.Log, logBlocks);
         fieldGroupItems.put(EnumFullPlantType.Mushroom, mushroomBlocks);
 
+        // dumber reqirements
         List<ItemStack> netherBlocks = new ArrayList<>();
         netherBlocks.add(new ItemStack(Blocks.netherrack));
         netherBlocks.add(new ItemStack(Blocks.soul_sand));
@@ -137,6 +145,39 @@ public class FieldItems {
 
         fieldGroupItems.put(EnumFullPlantType.FullNether, netherBlocks);
         fieldGroupItems.put(EnumFullPlantType.NetherPlains, netherPlainBlocks);
+
+        List<ItemStack> overgrownNetherrack = new ArrayList<>();
+        if (Loader.isModLoaded("BiomesOPlenty")) {
+            overgrownNetherrack.add(new ItemStack(BOPCBlocks.overgrownNetherrack));
+        }
+        fieldGroupItems.put(EnumFullPlantType.OvergrownNetherrack, overgrownNetherrack);
+
+        List<ItemStack> dirtType = new ArrayList<>();
+        dirtType.add(new ItemStack(Blocks.dirt));
+        dirtType.add(new ItemStack(Blocks.grass));
+        fieldGroupItems.put(EnumFullPlantType.Dirt, dirtType);
+
+        List<ItemStack> bopPineType = new ArrayList<>();
+        bopPineType.add(new ItemStack(Blocks.grass));
+        bopPineType.add(new ItemStack(Blocks.dirt));
+        if (Loader.isModLoaded("BiomesOPlenty")) {
+            for (int i = 0; i < 6; i++) bopPineType.add(new ItemStack(BOPCBlocks.newBopDirt, 1, i));
+            for (int i = 0; i < 3; i++) bopPineType.add(new ItemStack(BOPCBlocks.newBopGrass, 1, i));
+        }
+        fieldGroupItems.put(EnumFullPlantType.BOPPine, bopPineType);
+
+        List<ItemStack> bopMossType = new ArrayList<>();
+        for (Object rawBlock : Block.blockRegistry) {
+            Block block = (Block) rawBlock;
+            try {
+                if (block.isWood(null, 0, 0, 0)) {
+                    // TODO: figure out all subtypes of all logs maybe
+                    bopMossType.add(new ItemStack(block));
+                }
+            } catch (Exception ignored) {}
+        }
+        bopMossType.add(new ItemStack(Blocks.stone));
+        fieldGroupItems.put(EnumFullPlantType.BOPMoss, bopMossType);
 
         FieldItems.fieldGroupItems = fieldGroupItems;
         FieldItems.flowerItems = new ArrayList<>(spawnableFlowers.values());

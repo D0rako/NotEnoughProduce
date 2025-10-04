@@ -9,6 +9,7 @@ import net.minecraftforge.common.config.Configuration;
 public class Config {
 
     public static boolean showHarvestcraftGardens = true;
+    public static boolean overrideForGTNHRecipes = false;
 
     public static void synchronizeConfiguration(File configFile) {
         try {
@@ -24,6 +25,12 @@ public class Config {
             Configuration.CATEGORY_GENERAL,
             showHarvestcraftGardens,
             StatCollector.translateToLocal("neicrop.config.showHarvestcraftGardens.value"));
+
+        overrideForGTNHRecipes = config.getBoolean(
+            StatCollector.translateToLocal("neicrop.config.overrideForGTNHRecipes.key"),
+            Configuration.CATEGORY_GENERAL,
+            overrideForGTNHRecipes,
+            StatCollector.translateToLocal("neicrop.config.overrideForGTNHRecipes.value"));
 
         if (config.hasChanged()) {
             config.save();

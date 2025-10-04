@@ -18,11 +18,11 @@ An integration mod designed to show a variety of plant-based growth cycles in NE
   - Garden-sourced crops (blood leaf, flesh root, etc)
   - Glow Flower
   - Ignis Fruit Sapling
-- Biomes o' Plenty
-  - Barley
+- Biomes O' Plenty
   - Berries
   - Bamboo
-  - Vines (ivy, flowering vines)
+  - Turnips
+  - Vines (ivy, flowering vines, etc)
   - Saplings (hellbark, yellow autumn, etc)
 - Natura
   - Cotton

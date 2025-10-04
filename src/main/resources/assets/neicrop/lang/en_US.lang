@@ -16,7 +16,12 @@ neicrop.notes.drop=Produce is dropped as an item that can be picked up.
 neicrop.notes.hasFruit=Produce can be harvested by right-clicking fruit blocks.
 neicrop.notes.hasLogFruit=Produce can be harvested by right-clicking the tree trunk.
 
+neicrop.notes.leftClickFruit=Fruit can be left-clicked to harvest.
+neicrop.notes.bopFruitLeaves=Fruit will visibly appear on leaves, and can be harvested only once by right-clicking the leaves.
+
 neicrop.config.showHarvestcraftGardens.key=showHarvestcraftGardens
-neicrop.config.showHarvestcraftGardens.value=showHarvestcraftGardens
+neicrop.config.showHarvestcraftGardens.value=Add Pam's Harvestcraft gardens to the recipe list.
+neicrop.config.overrideForGTNHRecipes.key=overrideForGTNHRecipes
+neicrop.config.overrideForGTNHRecipes.value=Adjust recipes to match recipe and drop changes made by GT:NH libraries.
 
 neicrop.errors.hc=Pam's Harvestcraft has added a third type of fruit tree! Please submit a bug report to NotEnoughProduce to add it

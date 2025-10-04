@@ -18,13 +18,15 @@ public class PlantRecipe implements Comparable<PlantRecipe> {
         GROWS,
         DUPLICATING,
         VINE,
+        BUSH,
         TREE,
         OTHER
     }
 
     public enum ModOrigin {
         VANILLA,
-        HARVESTCRAFT
+        HARVESTCRAFT,
+        BIOMESOPLENTY
     }
 
     public ItemStack seed;
