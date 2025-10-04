@@ -37,9 +37,9 @@ public class VanillaRecipes {
             "red_mushroom", "red_mushroom", "nether_wart", "vine", "sapling"/* oak */, "sapling"/* spruce */,
             "sapling"/* birch */, "sapling"/* jungle */, "sapling"/* mega jungle */, "sapling"/* acadia */,
             "sapling"/* dark oak */, "grass"/* bonemeal flowers */, "double_plant"/* sunflower */,
-            "double_plant"/* syringa (lilac) */, "double_plant"/* rose */, "double_plant"/* paeonia (peony) */
+            "double_plant"/* syringa (lilac) */, "double_plant"/* rose */, "double_plant",/* paeonia (peony) */
         };
-        int[] SEED_DAMAGES = { 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 3, 4, 5, 0, 0, 1, 4, 5 };
+        int[] SEED_DAMAGES = { 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 3, 4, 5, 0, 0, 1, 4, 5};
         PlantRecipe.EnumPlantProcesses DEFAULT_FIELD_PROCESS = PlantRecipe.EnumPlantProcesses.BASIC;
 
         ItemStack[] META_TO_LOG = { new ItemStack((Item) Item.itemRegistry.getObject("log"), 1, 0),
@@ -87,6 +87,8 @@ public class VanillaRecipes {
         fieldSecondaryProducesOverrides.put(11, brownMushroomOutput);
 
         Map<Integer, String> fieldNotes = new HashMap<>();
+        fieldNotes.put(3, StatCollector.translateToLocal("neicrop.notes.isStem"));
+        fieldNotes.put(4, StatCollector.translateToLocal("neicrop.notes.isStem"));
         fieldNotes.put(8, StatCollector.translateToLocal("neicrop.notes.duplicating"));
         fieldNotes.put(10, StatCollector.translateToLocal("neicrop.notes.duplicating"));
         fieldNotes.put(

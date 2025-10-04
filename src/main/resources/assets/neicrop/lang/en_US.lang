@@ -3,6 +3,7 @@ neicrop.header=Crops & Produce
 neicrop.notes.caveReqs=Can be planted on any opaque block with a light level of 12 or under.
 neicrop.notes.mushroomReqs=Can also be planted on any opaque block with a light level of 12 or under.
 neicrop.notes.beachReqs=Dirt or sand block must be adjacent to water.
+neicrop.notes.isStem=Produce grows adjacent to the grown stem.
 neicrop.notes.duplicating=Will populate the area over time.
 neicrop.notes.grassFlowers=Produces flowers indigenous to the grass block's current biome.
 neicrop.notes.growUpwards=Will grow upwards over time, up to 3 blocks tall.
