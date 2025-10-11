@@ -95,9 +95,9 @@ public class VanillaRecipes {
         fieldNotes.put(10, StatCollector.translateToLocal("neicrop.notes.duplicating"));
         fieldNotes.put(
             13,
-            StatCollector.translateToLocal("neicrop.notes.vineLike") + "\n"
+            StatCollector.translateToLocal("neicrop.notes.vineLike") + "|"
                 + StatCollector.translateToLocal("neicrop.notes.shears")
-                + "\n"
+                + "|"
                 + StatCollector.translateToLocal("neicrop.notes.growDownwards"));
         fieldNotes.put(18, StatCollector.translateToLocal("neicrop.notes.megaTree"));
         fieldNotes.put(20, StatCollector.translateToLocal("neicrop.notes.megaTree"));

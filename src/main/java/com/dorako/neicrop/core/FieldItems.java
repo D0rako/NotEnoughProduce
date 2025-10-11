@@ -23,6 +23,7 @@ import biomesoplenty.api.content.BOPCBlocks;
 import biomesoplenty.common.blocks.BlockBOPNewDirt;
 import biomesoplenty.common.blocks.BlockBOPNewGrass;
 import cpw.mods.fml.common.Loader;
+import mods.natura.common.NContent;
 
 public class FieldItems {
 
@@ -44,7 +45,8 @@ public class FieldItems {
         OvergrownNetherrack,
         Dirt,
         BOPPine,
-        BOPMoss
+        BOPMoss,
+        NBlood
     }
 
     private static Map<EnumFullPlantType, List<ItemStack>> fieldGroupItems;
@@ -55,6 +57,8 @@ public class FieldItems {
      * done by checking Block.canSustainPlant for each unique block in the game (this feels wasteful but whatever)
      */
     private static void generate() {
+        // TODO: change to iterator on blockregistry for blocks equaling names used - this is likely missing some
+
         Map<EnumFullPlantType, List<ItemStack>> fieldGroupItems = new HashMap<>();
 
         for (EnumPlantType plantType : EnumPlantType.values()) {
@@ -138,6 +142,11 @@ public class FieldItems {
         netherBlocks.add(new ItemStack(Blocks.netherrack));
         netherBlocks.add(new ItemStack(Blocks.soul_sand));
 
+        List<ItemStack> naturaBloodBlocks = new ArrayList<>(netherBlocks);
+        if (Loader.isModLoaded("Natura")) {
+            naturaBloodBlocks.add(new ItemStack(NContent.taintedSoil));
+        }
+
         List<ItemStack> netherPlainBlocks = new ArrayList<>(netherBlocks);
         netherPlainBlocks.add(new ItemStack(Blocks.dirt));
         netherPlainBlocks.add(new ItemStack(Blocks.grass));
@@ -145,6 +154,7 @@ public class FieldItems {
 
         fieldGroupItems.put(EnumFullPlantType.FullNether, netherBlocks);
         fieldGroupItems.put(EnumFullPlantType.NetherPlains, netherPlainBlocks);
+        fieldGroupItems.put(EnumFullPlantType.NBlood, naturaBloodBlocks);
 
         List<ItemStack> overgrownNetherrack = new ArrayList<>();
         if (Loader.isModLoaded("BiomesOPlenty")) {

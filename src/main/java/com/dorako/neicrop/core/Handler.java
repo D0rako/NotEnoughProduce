@@ -336,7 +336,7 @@ public class Handler extends TemplateRecipeHandler {
 
     private List<String> stringToList(String string) {
         List<String> output = new ArrayList<>();
-        Collections.addAll(output, string.split("\n"));
+        Collections.addAll(output, string.split("\\|"));
         return output;
     }
 

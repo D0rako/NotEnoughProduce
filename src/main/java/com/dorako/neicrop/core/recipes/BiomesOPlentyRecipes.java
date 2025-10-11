@@ -144,11 +144,11 @@ public class BiomesOPlentyRecipes {
         Map<Integer, String> noteOverride = new HashMap<>();
         noteOverride.put(
             0,
-            StatCollector.translateToLocal("neicrop.notes.leftClickFruit") + "\n"
+            StatCollector.translateToLocal("neicrop.notes.leftClickFruit") + "|"
                 + StatCollector.translateToLocal("neicrop.notes.bopFruitLeaves"));
         noteOverride.put(
             15,
-            StatCollector.translateToLocal("neicrop.notes.leftClickFruit") + "\n"
+            StatCollector.translateToLocal("neicrop.notes.leftClickFruit") + "|"
                 + StatCollector.translateToLocal("neicrop.notes.bopFruitLeaves"));
 
         for (int i = 0; i < SAPLING_SIZE_A + SAPLING_SIZE_B + 2; i++) {

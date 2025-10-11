@@ -25,6 +25,7 @@ An integration mod designed to show a variety of plant-based growth cycles in NE
   - Vines (ivy, flowering vines, etc)
   - Saplings (hellbark, yellow autumn, etc)
 - Natura
+  - Barley
   - Cotton
   - Berry bushes (maloberry, blightberry, etc)
   - Thornvines
@@ -43,6 +44,8 @@ An integration mod designed to show a variety of plant-based growth cycles in NE
   - Saplings (twilight mangrove, canopy tree, etc)
 - Tinker's Construct
   - Slimy Saplings
+- Et Futurum Requiem
+  - ???
 
 ## Crops Intentionally Not Added
 - Forestry trees (as NEI info already exists for these)

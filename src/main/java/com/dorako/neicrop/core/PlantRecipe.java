@@ -26,7 +26,8 @@ public class PlantRecipe implements Comparable<PlantRecipe> {
     public enum ModOrigin {
         VANILLA,
         HARVESTCRAFT,
-        BIOMESOPLENTY
+        BIOMESOPLENTY,
+        NATURA
     }
 
     public ItemStack seed;
@@ -69,19 +70,19 @@ public class PlantRecipe implements Comparable<PlantRecipe> {
 
         if (fieldType == FieldItems.EnumFullPlantType.Cave) {
             if (notes != null) {
-                this.notes = caveNote + "\n" + notes;
+                this.notes = caveNote + "|" + notes;
             } else {
                 this.notes = caveNote;
             }
         } else if (fieldType == FieldItems.EnumFullPlantType.Mushroom) {
             if (notes != null) {
-                this.notes = mushroomNote + "\n" + notes;
+                this.notes = mushroomNote + "|" + notes;
             } else {
                 this.notes = mushroomNote;
             }
         } else if (fieldType == FieldItems.EnumFullPlantType.Beach) {
             if (notes != null) {
-                this.notes = beachNote + "\n" + notes;
+                this.notes = beachNote + "|" + notes;
             } else {
                 this.notes = beachNote;
             }

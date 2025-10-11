@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.dorako.neicrop.core.recipes.BiomesOPlentyRecipes;
 import com.dorako.neicrop.core.recipes.HarvestcraftRecipes;
+import com.dorako.neicrop.core.recipes.NaturaRecipes;
 import com.dorako.neicrop.core.recipes.NetherHarvestRecipes;
 import com.dorako.neicrop.core.recipes.VanillaRecipes;
 
@@ -19,7 +20,8 @@ public class CoreLoader {
 
     @SideOnly(Side.CLIENT)
     public static void generateAllRecipes() {
-        List<PlantRecipe> allPlants = new ArrayList<>(VanillaRecipes.generateRecipes());
+        List<PlantRecipe> allPlants = new ArrayList<>();
+        allPlants.addAll(VanillaRecipes.generateRecipes());
 
         if (Loader.isModLoaded("harvestcraft")) {
             allPlants.addAll(HarvestcraftRecipes.generateRecipes());
@@ -29,6 +31,9 @@ public class CoreLoader {
         }
         if (Loader.isModLoaded("BiomesOPlenty")) {
             allPlants.addAll(BiomesOPlentyRecipes.generateRecipes());
+        }
+        if (Loader.isModLoaded("Natura")) {
+            allPlants.addAll(NaturaRecipes.generateRecipes());
         }
 
         Collections.sort(allPlants);
