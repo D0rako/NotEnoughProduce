@@ -7,6 +7,7 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.BlockMushroom;
@@ -37,10 +38,11 @@ public class VanillaRecipes {
             /* cocoa */ "reeds", "cactus", "brown_mushroom"/* passive */, "brown_mushroom"/* bonemeal */,
             "red_mushroom", "red_mushroom", "nether_wart", "vine", "sapling"/* oak */, "sapling"/* spruce */,
             "sapling"/* birch */, "sapling"/* jungle */, "sapling"/* mega jungle */, "sapling"/* acadia */,
-            "sapling"/* dark oak */, "grass"/* bonemeal flowers */, "double_plant"/* sunflower */,
-            "double_plant"/* syringa (lilac) */, "double_plant"/* rose */, "double_plant",/* paeonia (peony) */
+            "sapling"/* dark oak */, "grass"/* bonemeal flowers */,
+            "double_plant"/* sunflower */, "double_plant"/* syringa (lilac) */, "double_plant"/* rose */,
+            "double_plant"/* paeonia (peony) */, "dirt"/* duplicating grass */, "dirt"/* duplicating mycelium */
         };
-        int[] SEED_DAMAGES = { 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 3, 4, 5, 0, 0, 1, 4, 5 };
+        int[] SEED_DAMAGES = { 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 3, 4, 5, 0, 0, 1, 4, 5, 0 };
         PlantRecipe.EnumPlantProcesses DEFAULT_FIELD_PROCESS = PlantRecipe.EnumPlantProcesses.BASIC;
 
         ItemStack[] META_TO_LOG = { new ItemStack((Item) Item.itemRegistry.getObject("log"), 1, 0),
@@ -70,6 +72,8 @@ public class VanillaRecipes {
         fieldGroupOverrides.put(9, FieldItems.EnumFullPlantType.Mushroom);
         fieldGroupOverrides.put(10, FieldItems.EnumFullPlantType.Mushroom);
         fieldGroupOverrides.put(11, FieldItems.EnumFullPlantType.Mushroom);
+        fieldGroupOverrides.put(26, FieldItems.EnumFullPlantType.VanillaDirt);
+        fieldGroupOverrides.put(27, FieldItems.EnumFullPlantType.VanillaMycelium);
 
         Map<Integer, PlantRecipe.EnumPlantProcesses> fieldProcessesOverrides = new HashMap<>();
         fieldProcessesOverrides.put(9, PlantRecipe.EnumPlantProcesses.BONEMEAL);
@@ -106,6 +110,7 @@ public class VanillaRecipes {
         fieldNotes.put(23, StatCollector.translateToLocal("neicrop.notes.drop"));
         fieldNotes.put(24, StatCollector.translateToLocal("neicrop.notes.drop"));
         fieldNotes.put(25, StatCollector.translateToLocal("neicrop.notes.drop"));
+        fieldNotes.put(26, StatCollector.translateToLocal("neicrop.notes.transforming"));
 
         List<ItemStack> seedList = new ArrayList<>();
         for (int i = 0; i < SEED_NAMES.length; i++) {
@@ -226,6 +231,11 @@ public class VanillaRecipes {
                 type = PlantRecipe.RecipeType.OTHER;
                 produce.addAll(FieldItems.getFlowerItems());
                 produce.add(new ItemStack(Blocks.tallgrass, 1, 1));
+            } else if (blockItem instanceof BlockDirt){
+                // dirt transformation
+                type = PlantRecipe.RecipeType.DUPLICATING_GRASS;
+                if(fieldType == FieldItems.EnumFullPlantType.VanillaGrass) produce.add(new ItemStack(Blocks.grass));
+                if(fieldType == FieldItems.EnumFullPlantType.VanillaMycelium) produce.add(new ItemStack(Blocks.mycelium));
             } else if (blockItem instanceof BlockVine) {
                 // vines
                 type = PlantRecipe.RecipeType.VINE;

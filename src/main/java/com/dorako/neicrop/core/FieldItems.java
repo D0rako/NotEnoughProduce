@@ -43,6 +43,8 @@ public class FieldItems {
         FullNether,
         NetherPlains,
         OvergrownNetherrack,
+        VanillaGrass,
+        VanillaMycelium,
         Dirt,
         BOPPine,
         BOPMoss,
@@ -161,6 +163,14 @@ public class FieldItems {
             overgrownNetherrack.add(new ItemStack(BOPCBlocks.overgrownNetherrack));
         }
         fieldGroupItems.put(EnumFullPlantType.OvergrownNetherrack, overgrownNetherrack);
+
+        List<ItemStack> trueGrassType = new ArrayList<>();
+        trueGrassType.add(new ItemStack(Blocks.grass));
+        fieldGroupItems.put(EnumFullPlantType.VanillaGrass, trueGrassType);
+
+        List<ItemStack> trueMyceliumType = new ArrayList<>();
+        trueMyceliumType.add(new ItemStack(Blocks.mycelium));
+        fieldGroupItems.put(EnumFullPlantType.VanillaMycelium, trueMyceliumType);
 
         List<ItemStack> dirtType = new ArrayList<>();
         dirtType.add(new ItemStack(Blocks.dirt));

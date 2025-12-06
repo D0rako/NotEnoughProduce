@@ -17,6 +17,7 @@ public class PlantRecipe implements Comparable<PlantRecipe> {
         CROP,
         GROWS,
         DUPLICATING,
+        DUPLICATING_GRASS,
         VINE,
         BUSH,
         TREE,

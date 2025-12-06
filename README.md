@@ -10,6 +10,7 @@ An integration mod designed to show a variety of plant-based growth cycles in NE
   - Saplings (oak, spruce, etc)
   - Mushroom tree growth
   - Flower growth from Bonemeal
+  - Block transformation (grass, mycelium)
 - Pam's Harvestcraft
   - Garden duplication
   - Garden-sourced crops (blueberry, rice, etc)
@@ -33,6 +34,8 @@ An integration mod designed to show a variety of plant-based growth cycles in NE
   - Glowshroom tree growth
 - Thaumcraft
   - Saplings (silverwood, greatwood)
+  - Mana Beans
+  - Fibrous Taint and taint-related growth (crusted taint, taint shard, etc)
 - Thaumic Bases
   - Crops (glieonia,lazullia, etc)
   - Esoteric plants (rainbow cactus, briar, etc)
