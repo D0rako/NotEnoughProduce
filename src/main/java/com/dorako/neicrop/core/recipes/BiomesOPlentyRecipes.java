@@ -25,7 +25,7 @@ import biomesoplenty.common.blocks.BlockWisteria;
 
 public class BiomesOPlentyRecipes {
 
-    private static final String modId = "BiomesOPlenty";
+    public static final String modId = "BiomesOPlenty";
     private static final PlantRecipe.ModOrigin modOrigin = PlantRecipe.ModOrigin.BIOMESOPLENTY;
 
     public static List<PlantRecipe> generateRecipes() {

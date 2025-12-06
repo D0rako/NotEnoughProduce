@@ -23,16 +23,16 @@ public class CoreLoader {
         List<PlantRecipe> allPlants = new ArrayList<>();
         allPlants.addAll(VanillaRecipes.generateRecipes());
 
-        if (Loader.isModLoaded("harvestcraft")) {
+        if (Loader.isModLoaded(HarvestcraftRecipes.modId)) {
             allPlants.addAll(HarvestcraftRecipes.generateRecipes());
         }
-        if (Loader.isModLoaded("harvestthenether")) {
+        if (Loader.isModLoaded(NetherHarvestRecipes.modId)) {
             allPlants.addAll(NetherHarvestRecipes.generateRecipes());
         }
-        if (Loader.isModLoaded("BiomesOPlenty")) {
+        if (Loader.isModLoaded(BiomesOPlentyRecipes.modId)) {
             allPlants.addAll(BiomesOPlentyRecipes.generateRecipes());
         }
-        if (Loader.isModLoaded("Natura")) {
+        if (Loader.isModLoaded(NaturaRecipes.modId)) {
             allPlants.addAll(NaturaRecipes.generateRecipes());
         }
 

@@ -19,7 +19,7 @@ import com.pam.harvestthenether.ItemRegistry;
 
 public class NetherHarvestRecipes {
 
-    private static final String modId = "harvestcraft";
+    public static final String modId = "harvestthenether";
     private static final PlantRecipe.ModOrigin modOrigin = PlantRecipe.ModOrigin.HARVESTCRAFT;
 
     private static final boolean INCLUDE_GARDENS = Config.showHarvestcraftGardens;

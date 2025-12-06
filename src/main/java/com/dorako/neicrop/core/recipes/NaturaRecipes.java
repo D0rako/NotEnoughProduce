@@ -19,7 +19,7 @@ import mods.natura.common.PHNatura;
 
 public class NaturaRecipes {
 
-    private static final String modId = "Natura";
+    public static final String modId = "Natura";
     private static final PlantRecipe.ModOrigin modOrigin = PlantRecipe.ModOrigin.NATURA;
 
     public static List<PlantRecipe> generateRecipes() {
