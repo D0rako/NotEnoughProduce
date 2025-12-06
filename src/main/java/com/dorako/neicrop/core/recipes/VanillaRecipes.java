@@ -72,7 +72,7 @@ public class VanillaRecipes {
         fieldGroupOverrides.put(9, FieldItems.EnumFullPlantType.Mushroom);
         fieldGroupOverrides.put(10, FieldItems.EnumFullPlantType.Mushroom);
         fieldGroupOverrides.put(11, FieldItems.EnumFullPlantType.Mushroom);
-        fieldGroupOverrides.put(26, FieldItems.EnumFullPlantType.VanillaDirt);
+        fieldGroupOverrides.put(26, FieldItems.EnumFullPlantType.VanillaGrass);
         fieldGroupOverrides.put(27, FieldItems.EnumFullPlantType.VanillaMycelium);
 
         Map<Integer, PlantRecipe.EnumPlantProcesses> fieldProcessesOverrides = new HashMap<>();
